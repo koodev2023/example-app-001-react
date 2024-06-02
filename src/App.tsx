@@ -13,6 +13,8 @@ function App() {
   const getMovies = async () => {
     try {
       setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       const response = await api.get("/api/v1/movies");
       setMovies(response.data);
       setIsLoading(false);
@@ -30,7 +32,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home movies={movies} />} />
+          <Route
+            path="/"
+            element={<Home movies={movies} isLoading={isLoading} />}
+          />
           <Route path="/trailer/:ytTrailerId" element={<Trailer />} />
         </Route>
       </Routes>

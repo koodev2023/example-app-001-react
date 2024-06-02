@@ -1,10 +1,21 @@
-import React from "react";
 import Hero from "../hero/Hero";
 
-const Home = ({ movies }: { movies: Movie[] }) => {
+const Home = ({
+  movies,
+  isLoading,
+}: {
+  movies: Movie[];
+  isLoading: boolean;
+}) => {
   return (
     <div>
-      <Hero movies={movies} />
+      {isLoading ? (
+        <div className="flex flex-col w-full h-full items-center justify-center">
+          Loading...
+        </div>
+      ) : (
+        <Hero movies={movies} />
+      )}
     </div>
   );
 };
