@@ -16,7 +16,8 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
-  // use 0 for smooth transition
+  // IDEA: randomize backdrop images
+  // ISSUE: make fast scrolling very laggy
   // const [oddBackdropIndex, setOddBackdropIndex] = useState(0);
   // const [evenBackdropIndex, setEvenBackdropIndex] = useState(1);
 
@@ -32,7 +33,8 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
     api.on("select", () => {
       // console.log(`select: ${api.selectedScrollSnap()}`);
 
-      // use 0 for smooth transition
+      // IDEA: randomize backdrop images
+      // ISSUE: make fast scrolling very laggy
       // if (api.selectedScrollSnap() % 2 === 0) {
       //   setEvenBackdropIndex(Math.floor(Math.random() * 10));
       // } else {
@@ -65,6 +67,8 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
               <div className="flex flex-col gap-2 items-center justify-center w-full relative">
                 <img
                   src={
+                    // IDEA: randomize backdrop images
+                    // ISSUE: make fast scrolling very laggy
                     // mov.backdrops[
                     //   index % 2 === 0 ? evenBackdropIndex : oddBackdropIndex
                     // ]
