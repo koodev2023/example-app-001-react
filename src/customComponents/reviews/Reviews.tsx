@@ -1,6 +1,3 @@
-import React, { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-
 const Reviews = () =>
   // { getMovieData, movie, reviews, setReviews }
   {
