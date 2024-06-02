@@ -8,7 +8,7 @@ const Home = ({
   isLoading: boolean;
 }) => {
   return (
-    <div>
+    <div className="w-full max-w-5xl">
       {isLoading ? (
         <div className="flex flex-col w-full h-full items-center justify-center">
           Loading...

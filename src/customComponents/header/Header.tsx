@@ -7,8 +7,8 @@ const Header = () => {
   // window.location.pathname not working
 
   return (
-    <nav>
-      <div className="flex flex-row justify-between sticky top-0 bg-gray-100 font-medium">
+    <nav className="flex flex-col w-full items-center justify-center bg-gray-100">
+      <div className="flex flex-row justify-between sticky top-0 font-medium w-full max-w-5xl">
         <div className="flex flex-row gap-1 items-center justify-center">
           <div className="flex flex-row gap-1 items-center justify-center mx-2">
             <IoVideocam className="text-4xl my-1.5 text-blue-800" />

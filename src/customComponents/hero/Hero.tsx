@@ -51,11 +51,11 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
     <div
       onMouseLeave={() => setMyDuration(2500)}
       onMouseEnter={() => setMyDuration(60000)}
-      className="flex flex-col items-center justify-center w-full"
+      className="flex flex-col items-center justify-center w-full max-w-5xl sm:mt-10"
     >
       <Carousel
         plugins={[Autoplay({ delay: myDuration })]}
-        className="w-full"
+        className="w-full max-w-5xl"
         opts={{ loop: true }}
         setApi={setApi}
       >
@@ -70,7 +70,7 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
                     // ]
                     mov.backdrops[0] // use 0 for smooth transition
                   }
-                  className="opacity-70"
+                  className="opacity-70 w-full"
                 />
 
                 <div className="absolute flex flex-row max-sm:flex-col gap-2 sm:left-[10%] bottom-1.5 max-sm:top-[10%] items-end max-sm:items-center">
