@@ -5,9 +5,12 @@ import Layout from "./layout";
 import Home from "./customComponents/home/Home";
 import Header from "./customComponents/header/Header";
 import Trailer from "./customComponents/trailer/Trailer";
+import Reviews from "./customComponents/reviews/Reviews";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [movie, setMovie] = useState<IMovie>();
+  const [reviews, setReviews] = useState<IReview[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getMovies = async () => {
@@ -18,6 +21,24 @@ function App() {
       const response = await api.get("/api/v1/movies");
       setMovies(response.data);
       setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getMovieData = async (movieId: string) => {
+    try {
+      const response = await api.get(`/api/v1/movies/${movieId}`);
+
+      console.log(`Response: ${response}`);
+
+      const singleMovie = response.data as IMovie;
+
+      setMovie(singleMovie);
+
+      setReviews(singleMovie.reviewIds);
+
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -37,11 +58,20 @@ function App() {
             element={<Home movies={movies} isLoading={isLoading} />}
           />
           <Route path="/trailer/:ytTrailerId" element={<Trailer />} />
+          <Route
+            path="/reviews/:movieId"
+            element={
+              <Reviews
+                getMovieData={getMovieData}
+                movie={movie}
+                reviews={reviews}
+                setReviews={setReviews}
+              />
+            }
+          />
+          <Route path="*" element={<div>Not found</div>} />
         </Route>
       </Routes>
-
-      {/* <div>Example App with Spring Boot and React</div>
-      {isLoading ? <div>Loading...</div> : <div>{JSON.stringify(movies)}</div>} */}
     </div>
   );
 }

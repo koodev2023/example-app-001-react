@@ -8,7 +8,7 @@
 // backdrops Array (10)
 // reviewIds Array (empty)
 
-interface Movie {
+interface IMovie {
   _id: string;
   imdbId: string;
   title: string;
@@ -17,5 +17,5 @@ interface Movie {
   genres: string[];
   poster: string;
   backdrops: string[];
-  reviewIds: string[];
+  reviewIds: IReview[];
 }

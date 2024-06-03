@@ -10,18 +10,23 @@ import {
 import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { FaPlay } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Hero = ({ movies }: { movies: Movie[] }) => {
+const Hero = ({ movies }: { movies: IMovie[] }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [myDuration, setMyDuration] = useState(2500);
+
+  const navigate = useNavigate();
+
+  function reviews(movieId: string) {
+    navigate(`/reviews/${movieId}`);
+  }
 
   // IDEA: randomize backdrop images
   // ISSUE: make fast scrolling very laggy
   // const [oddBackdropIndex, setOddBackdropIndex] = useState(0);
   // const [evenBackdropIndex, setEvenBackdropIndex] = useState(1);
-
-  const [myDuration, setMyDuration] = useState(2500);
 
   useEffect(() => {
     if (!api) {
@@ -53,7 +58,7 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
     <div
       onMouseLeave={() => setMyDuration(2500)}
       onMouseEnter={() => setMyDuration(60000)}
-      className="flex flex-col items-center justify-center w-full max-w-5xl sm:mt-10"
+      className="flex flex-col gap-5 items-center justify-center w-full max-w-5xl sm:mt-10"
     >
       <Carousel
         plugins={[Autoplay({ delay: myDuration })]}
@@ -87,15 +92,24 @@ const Hero = ({ movies }: { movies: Movie[] }) => {
                   </div>
                 </div>
 
-                <button className="absolute right-[10%] max-sm:right-[20%] bottom-3 max-sm:bottom-[5%] bg-blue-800 rounded-full p-3.5 max-sm:p-2">
-                  <Link
-                    to={`/trailer/${mov.trailerLink.substring(
-                      mov.trailerLink.length - 11
-                    )}`}
+                <div className="flex flex-row gap-2 absolute right-[5%] max-sm:right-[5%] bottom-3 max-sm:bottom-[5%] text-2xl max-sm:text-sm">
+                  <button className=" bg-blue-800 rounded-full p-3.5 max-sm:p-2">
+                    <Link
+                      to={`/trailer/${mov.trailerLink.substring(
+                        mov.trailerLink.length - 11
+                      )}`}
+                    >
+                      <FaPlay className="text-gray-200" />
+                    </Link>
+                  </button>
+
+                  <button
+                    className="right-[20%] max-sm:right-[5%] bottom-3 max-sm:bottom-[5%] bg-blue-800 rounded-md py-0.5 px-2 max-sm:p-1 text-white"
+                    onClick={() => reviews(mov.imdbId)}
                   >
-                    <FaPlay className="text-gray-200 text-2xl max-sm:text-sm" />
-                  </Link>
-                </button>
+                    Reviews
+                  </button>
+                </div>
               </div>
             </CarouselItem>
           ))}

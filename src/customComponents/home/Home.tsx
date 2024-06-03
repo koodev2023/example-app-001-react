@@ -4,7 +4,7 @@ const Home = ({
   movies,
   isLoading,
 }: {
-  movies: Movie[];
+  movies: IMovie[];
   isLoading: boolean;
 }) => {
   return (
