@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react";
 import Hero from "../hero/Hero";
 
 const Home = ({
@@ -10,8 +11,8 @@ const Home = ({
   return (
     <div className="w-full max-w-5xl">
       {isLoading ? (
-        <div className="flex flex-col w-full h-full items-center justify-center">
-          Loading...
+        <div className="flex flex-col w-full min-h-[calc(100vh-80px)] items-center justify-center">
+          <Loader2 size="40" className="animate-spin" />
         </div>
       ) : (
         <Hero movies={movies} />
