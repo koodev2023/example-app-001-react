@@ -36,7 +36,8 @@ const Reviews = ({
     try {
       setIsSubmittingReview(true);
 
-      const response = await api.post("/api/v1/reviews", {
+      // const response = await api.post("/api/v1/reviews", {
+      await api.post("/api/v1/reviews", {
         reviewBody: reviewText,
         imdbId: movieId,
       });
