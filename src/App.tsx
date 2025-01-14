@@ -30,15 +30,11 @@ function App() {
     try {
       const response = await api.get(`/api/v1/movies/${movieId}`);
 
-      console.log(`Response: ${response}`);
-
       const singleMovie = response.data as IMovie;
 
       setMovie(singleMovie);
 
       setReviews(singleMovie.reviewIds);
-
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }

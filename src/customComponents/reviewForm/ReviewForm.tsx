@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   body: z.string().min(3, {
@@ -41,7 +42,7 @@ export function ReviewForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
     await handleSubmit({ reviewText: values.body });
 
     // your code here to clear the text area after comment submitted.
@@ -69,11 +70,11 @@ export function ReviewForm({
           )}
         />
         <Button
-          className="px-2 py-1 h-min w-min max-sm:w-full ml-auto"
+          className="px-2 py-1 min-h-8 h-8 max-h-8 min-w-16 w-16 max-sm:w-full ml-auto"
           type="submit"
           disabled={isSubmittingReview}
         >
-          Submit
+          {isSubmittingReview ? <Loader2 className="animate-spin" /> : "Submit"}
         </Button>
       </form>
     </Form>

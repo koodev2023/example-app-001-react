@@ -19,28 +19,27 @@ const Reviews = ({
 }) => {
   const params = useParams();
   const movieId = params.movieId;
-  const reviewsEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   useEffect(() => {
     getMovieData(movieId!);
   }, []);
 
+  useEffect(() => {
+    if (reviews && reviews.length > 0) {
+      scrollAreaRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [reviews?.length]);
+
   const addReview = async ({ reviewText }: { reviewText: string }) => {
     try {
       setIsSubmittingReview(true);
-
-      console.log("reviewText:", reviewText);
-      console.log("movieId:", movieId);
 
       const response = await api.post("/api/v1/reviews", {
         reviewBody: reviewText,
         imdbId: movieId,
       });
-
-      console.log(JSON.stringify(response));
-      console.log(response.config);
-      console.log(response.data);
 
       const updatedReviews = [...reviews!, { _id: "fakeId", body: reviewText }];
 
@@ -58,6 +57,8 @@ const Reviews = ({
       }
     } catch (error) {
       console.log(`Error: ${error}`);
+    } finally {
+      setIsSubmittingReview(false);
     }
   };
 
@@ -75,31 +76,36 @@ const Reviews = ({
             )}
           </div>
 
-          <div
-            className="flex flex-col gap-2 px-5 max-sm:pt-2 pb-2 w-3/5 max-sm:w-full"
-            ref={reviewsEndRef}
-          >
+          <div className="flex flex-col gap-2 px-5 max-sm:pt-2 pb-2 w-3/5 max-sm:w-full">
             <ReviewForm
               handleSubmit={addReview}
               labelText="Write a Review"
               defaultValues={{ body: "" }}
               isSubmittingReview={isSubmittingReview}
             />
+
             <ScrollArea className="hidden sm:block rounded-md border px-2 py-1 sm:h-[360px]">
-              {reviews?.length === 0
-                ? "Write a comment!"
-                : reviews?.map((review, index) => {
-                    return (
-                      <div key={`scrollable ${index}`}>
-                        <div className="flex flex-row gap-1">
-                          <UserRound />
-                          <p>:</p>
-                          <p>{review.body}</p>
+              <div ref={scrollAreaRef}>
+                {reviews?.length === 0
+                  ? "Write a comment!"
+                  : reviews!.map((review, index, reviews) => {
+                      return (
+                        <div
+                          key={`scrollable ${index}`}
+                          ref={
+                            index + 1 === reviews.length ? scrollAreaRef : null
+                          }
+                        >
+                          <div className="flex flex-row gap-1">
+                            <UserRound />
+                            <p>:</p>
+                            <p>{review.body}</p>
+                          </div>
+                          <Separator className="my-0.5" />
                         </div>
-                        <Separator className="my-0.5" />
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+              </div>
             </ScrollArea>
 
             <div className="block sm:hidden px-2 py-1">
@@ -120,8 +126,6 @@ const Reviews = ({
             </div>
           </div>
         </div>
-
-        <div ref={reviewsEndRef}></div>
       </div>
     </>
   );
