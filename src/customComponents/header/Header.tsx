@@ -33,9 +33,13 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex flex-row gap-1 items-center justify-center mr-2">
-          <Button variant="outline">Login</Button>
-          <Button variant="outline">SignUp</Button>
+        <div className="flex flex-row gap-1.5 items-center justify-center mr-2">
+          <Button className="px-2 py-1.5 h-min" variant="outline">
+            Login
+          </Button>
+          <Button className="px-2 py-1.5 h-min" variant="outline">
+            SignUp
+          </Button>
         </div>
       </div>
     </nav>

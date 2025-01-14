@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ReviewForm } from "../reviewForm/ReviewForm";
 import api from "../../api/axiosConfig";
+import { Loader2 } from "lucide-react";
 
 const Reviews = ({
   getMovieData,
@@ -14,37 +15,36 @@ const Reviews = ({
   reviews: IReview[] | undefined;
   setReviews: React.Dispatch<React.SetStateAction<IReview[]>>;
 }) => {
-  // if (!movie) {
-  //   return <div>Movie not found</div>;
-  // }
-
-  // if (!reviews) {
-  //   return <div>Reviews not found</div>;
-  // }
-
   const params = useParams();
   const movieId = params.movieId;
 
-  console.log(`Movie ID 123: ${movieId}`);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   useEffect(() => {
-    console.log(`Movie ID: ${movieId}`);
-
     getMovieData(movieId!);
   }, []);
 
   const addReview = async ({ reviewText }: { reviewText: string }) => {
     try {
+      setIsSubmittingReview(true);
+
+      console.log("reviewText:", reviewText);
+      console.log("movieId:", movieId);
+
       const response = await api.post("/api/v1/reviews", {
         reviewBody: reviewText,
         imdbId: movieId,
       });
 
-      console.log(`Response: ${response.config.data}`);
+      console.log(JSON.stringify(response));
+      console.log(response.config);
+      console.log(response.data);
 
       const updatedReviews = [...reviews!, { _id: "fakeId", body: reviewText }];
 
       setReviews(updatedReviews);
+
+      setIsSubmittingReview(false);
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -57,14 +57,19 @@ const Reviews = ({
 
         <div className="flex max-sm:flex-col flex-row">
           <div className="flex flex-col">
-            <img src={movie?.poster} alt="poster" />
+            {movie ? (
+              <img src={movie?.poster} alt="poster" />
+            ) : (
+              <Loader2 size="40" className="animate-spin" />
+            )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col px-5 py-2">
             <ReviewForm
               handleSubmit={addReview}
               labelText="Write a Review"
               defaultValues={{ body: "" }}
+              isSubmittingReview={isSubmittingReview}
             />
             {reviews?.map((review, index) => {
               return (

@@ -24,10 +24,12 @@ export function ReviewForm({
   handleSubmit,
   labelText,
   defaultValues,
+  isSubmittingReview,
 }: {
   handleSubmit: ({ reviewText }: { reviewText: string }) => Promise<void>;
   labelText: string;
   defaultValues: z.infer<typeof formSchema>;
+  isSubmittingReview: boolean;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,11 +38,14 @@ export function ReviewForm({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    handleSubmit({ reviewText: values.body });
+    await handleSubmit({ reviewText: values.body });
+
+    // your code here to clear the text area after comment submitted.
+    form.reset();
   }
 
   return (
@@ -60,7 +65,9 @@ export function ReviewForm({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmittingReview}>
+          Submit
+        </Button>
       </form>
     </Form>
   );
