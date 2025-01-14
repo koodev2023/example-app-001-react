@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { FaPlay } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Hero = ({ movies }: { movies: IMovie[] }) => {
   const [api, setApi] = useState<CarouselApi>();
@@ -83,15 +84,19 @@ const Hero = ({ movies }: { movies: IMovie[] }) => {
                 </div>
 
                 <div className="flex flex-row gap-2 sm:absolute right-[5%] max-sm:right-[5%] bottom-3 max-sm:bottom-[5%] text-2xl max-sm:text-sm">
-                  <button className=" bg-blue-800 rounded-full p-3.5 max-sm:p-2">
+                  <Button
+                    size="icon"
+                    variant="default"
+                    className="rounded-full"
+                  >
                     <Link
                       to={`/trailer/${mov.trailerLink.substring(
                         mov.trailerLink.length - 11
                       )}`}
                     >
-                      <FaPlay className="text-gray-200" />
+                      <FaPlay />
                     </Link>
-                  </button>
+                  </Button>
 
                   <button
                     className="right-[20%] max-sm:right-[5%] bottom-3 max-sm:bottom-[5%] bg-blue-800 rounded-md py-0.5 px-2 max-sm:p-1 text-white"
