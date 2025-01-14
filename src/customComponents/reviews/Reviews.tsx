@@ -85,20 +85,39 @@ const Reviews = ({
               defaultValues={{ body: "" }}
               isSubmittingReview={isSubmittingReview}
             />
-            <ScrollArea className="rounded-md border px-2 py-1 sm:h-[360px]">
-              {reviews?.map((review, index) => {
-                return (
-                  <>
-                    <div key={index} className="flex flex-row gap-1">
-                      <UserRound />
-                      <p>:</p>
-                      <p>{review.body}</p>
-                    </div>
-                    <Separator className="my-0.5" />
-                  </>
-                );
-              })}
+            <ScrollArea className="hidden sm:block rounded-md border px-2 py-1 sm:h-[360px]">
+              {reviews?.length === 0
+                ? "Write a comment!"
+                : reviews?.map((review, index) => {
+                    return (
+                      <div key={`scrollable ${index}`}>
+                        <div className="flex flex-row gap-1">
+                          <UserRound />
+                          <p>:</p>
+                          <p>{review.body}</p>
+                        </div>
+                        <Separator className="my-0.5" />
+                      </div>
+                    );
+                  })}
             </ScrollArea>
+
+            <div className="block sm:hidden px-2 py-1">
+              {reviews?.length === 0
+                ? "Write a comment!"
+                : reviews?.map((review, index) => {
+                    return (
+                      <div key={`no scroll ${index}`}>
+                        <div className="flex flex-row gap-1">
+                          <UserRound />
+                          <p>:</p>
+                          <p>{review.body}</p>
+                        </div>
+                        <Separator className="my-0.5" />
+                      </div>
+                    );
+                  })}
+            </div>
           </div>
         </div>
 
