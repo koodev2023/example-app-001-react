@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { navRoutes } from "@/constants/navRoutes";
 import { IoVideocam } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router-dom";
@@ -33,12 +34,8 @@ const Header = () => {
         </div>
 
         <div className="flex flex-row gap-1 items-center justify-center mr-2">
-          <div className="text-1xl text-blue-800 border-[1.5px] border-blue-800 rounded-sm px-2">
-            Login
-          </div>
-          <div className="text-1xl text-blue-800 border-[1.5px] border-blue-800 rounded-sm px-2">
-            SignUp
-          </div>
+          <Button variant="outline">Login</Button>
+          <Button variant="outline">SignUp</Button>
         </div>
       </div>
     </nav>
