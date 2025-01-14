@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ReviewForm } from "../reviewForm/ReviewForm";
 import api from "../../api/axiosConfig";
-import { Loader2 } from "lucide-react";
+import { Loader2, UserRound } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 const Reviews = ({
   getMovieData,
@@ -17,7 +19,7 @@ const Reviews = ({
 }) => {
   const params = useParams();
   const movieId = params.movieId;
-
+  const reviewsEndRef = useRef<HTMLDivElement>(null);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   useEffect(() => {
@@ -45,6 +47,15 @@ const Reviews = ({
       setReviews(updatedReviews);
 
       setIsSubmittingReview(false);
+
+      if (typeof window !== "undefined") {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 100);
+      }
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -52,10 +63,10 @@ const Reviews = ({
 
   return (
     <>
-      <div className="flex flex-col">
-        <h3>Review</h3>
+      <div className="flex flex-col gap-3">
+        <h3 className="text-xl font-semibold leading-tight">Review</h3>
 
-        <div className="flex max-sm:flex-col flex-row">
+        <div className="flex max-sm:flex-col flex-row sm:gap-8">
           <div className="flex flex-col">
             {movie ? (
               <img src={movie?.poster} alt="poster" />
@@ -64,22 +75,34 @@ const Reviews = ({
             )}
           </div>
 
-          <div className="flex flex-col px-5 py-2">
+          <div
+            className="flex flex-col gap-2 px-5 max-sm:pt-2 pb-2 w-3/5 max-sm:w-full"
+            ref={reviewsEndRef}
+          >
             <ReviewForm
               handleSubmit={addReview}
               labelText="Write a Review"
               defaultValues={{ body: "" }}
               isSubmittingReview={isSubmittingReview}
             />
-            {reviews?.map((review, index) => {
-              return (
-                <div key={index}>
-                  <p>{review.body}</p>
-                </div>
-              );
-            })}
+            <ScrollArea className="rounded-md border px-2 py-1 sm:h-[360px]">
+              {reviews?.map((review, index) => {
+                return (
+                  <>
+                    <div key={index} className="flex flex-row gap-1">
+                      <UserRound />
+                      <p>:</p>
+                      <p>{review.body}</p>
+                    </div>
+                    <Separator className="my-0.5" />
+                  </>
+                );
+              })}
+            </ScrollArea>
           </div>
         </div>
+
+        <div ref={reviewsEndRef}></div>
       </div>
     </>
   );

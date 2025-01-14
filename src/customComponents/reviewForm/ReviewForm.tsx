@@ -50,13 +50,16 @@ export function ReviewForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col space-y-2 max-sm:space-y-5"
+      >
         <FormField
           control={form.control}
           name="body"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{labelText}</FormLabel>
+              <FormLabel className="font-bold">{labelText}</FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>
@@ -65,7 +68,11 @@ export function ReviewForm({
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmittingReview}>
+        <Button
+          className="px-2 py-1 h-min w-min max-sm:w-full ml-auto"
+          type="submit"
+          disabled={isSubmittingReview}
+        >
           Submit
         </Button>
       </form>
